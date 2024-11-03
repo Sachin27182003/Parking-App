@@ -59,7 +59,7 @@ function resetForm() {
 
 
 var options = {
-    "key": "****************",  // Replace with your Razorpay Key ID
+    "key": "rzp_test_ucZYDXZDNEdMMl",  // Replace with your Razorpay Key ID
     "amount": price()*100 || 5000,  // Amount in paise (50000 paise = INR 500)
     "currency": "INR",
     "name": "Parking Website",  // Your website or company name
@@ -122,9 +122,12 @@ document.getElementById('rzp-button1').onclick = function(e) {
 
 function afterPayment(buttonId, paymentId){
 
+    setTimeout(()=>{
+        downloadPDF();
+    },1000)
+
     let count = 10;
     
-    setTimeout(() => {
         const intervalId = setInterval(() => {
             document.getElementById('homepage').innerHTML = `Homepage ${count}`;
             count--;
@@ -134,7 +137,6 @@ function afterPayment(buttonId, paymentId){
                 window.location.href = '../homepage/homepage.html';
             }
         }, 1000); 
-    }, 10000); 
 
     const parkingDate = document.getElementById('parking-date').value;
 
@@ -146,7 +148,7 @@ function afterPayment(buttonId, paymentId){
     document.getElementById('booking-id').textContent = `Payment Id: ${paymentId}`;
     document.getElementById('booking-slot').textContent = `Slot No: ${buttonId}`;
     document.getElementById('booking-date').textContent = `Parking Date: ${parkingDate}`;
-    document.getElementById('booking-phoneNo').textContent = `Phone No: ${mobileNumber}`;
+    document.getElementById('booking-phoneNo').textContent = `Phone No: +${mobileNumber}`;
     document.getElementById('booking-vehicle').textContent = `Vehicle Type: ${vehicleType}`;
     document.getElementById('booking-signature').textContent = `Digitally signed by parking.in ${todayStr}`;
 
@@ -170,6 +172,6 @@ function downloadPDF() {
   
 
 //   window.onload = downloadPDF;
-  if(document.getElementById('booking-pdf').style.display === `block`){
-    downloadPDF();
-  }
+//   if(document.getElementById('booking-pdf').style.display === `block`){
+//     downloadPDF();
+//   }
