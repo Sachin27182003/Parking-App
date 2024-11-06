@@ -57,6 +57,9 @@ function resetForm() {
     document.getElementById('booking-details').style.display = 'none';
 }
 
+const loggedUser = JSON.parse(sessionStorage.getItem('loginuser'))
+
+const loggedEmail = loggedUser.Email
 
 var options = {
     "key": "rzp_test_ucZYDXZDNEdMMl",  // Replace with your Razorpay Key ID
@@ -78,20 +81,25 @@ var options = {
         const buttonId = params.get('buttonId');
 
         const buttonIds = JSON.parse(localStorage.getItem('buttonIds')) || [];
-
+        const storedUser = JSON.parse(localStorage.getItem('storedUser')) ||  [] ;
+       
         buttonIds.push(buttonId);
 
 
         const user = {
             Name: Username,
+            Email: loggedEmail,
             ButtonId: buttonId,
             PaymentId : paymentId,
             paymentSuccess: true,
-            Booking_Date: todayStr
+            Booking_Date: todayStr,
+            Price: price()
         }
+
+        storedUser.push(user);
     
         // Store payment success status in sessionStorage
-        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('storedUser', JSON.stringify(storedUser));
         localStorage.setItem('buttonIds', JSON.stringify(buttonIds));
 
         // Redirect to the first page
@@ -99,9 +107,9 @@ var options = {
         afterPayment(buttonId, paymentId);
     },
     "prefill": {
-        "name": "Sachin",
+        "name": Username,
         "email": "sachin@example.com",
-        "contact": "8210333838"
+        "contact": mobileNumber
     },
     "notes": {
         "address": "Some address"
@@ -145,14 +153,14 @@ function afterPayment(buttonId, paymentId){
     document.getElementById('booking-pdf').style.display = `block`;
 
     document.getElementById('booking-name').textContent = `Name: ${Username}`;
+    document.getElementById('booking-email').textContent = `Email: ${loggedEmail}`;
     document.getElementById('booking-id').textContent = `Payment Id: ${paymentId}`;
     document.getElementById('booking-slot').textContent = `Slot No: ${buttonId}`;
     document.getElementById('booking-date').textContent = `Parking Date: ${parkingDate}`;
     document.getElementById('booking-phoneNo').textContent = `Phone No: +${mobileNumber}`;
     document.getElementById('booking-vehicle').textContent = `Vehicle Type: ${vehicleType}`;
+    document.getElementById('booking-price').textContent = `Price: ₹${price()}`;
     document.getElementById('booking-signature').textContent = `Digitally signed by parking.in ${todayStr}`;
-
-    
 
 }
 

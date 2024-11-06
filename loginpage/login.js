@@ -7,7 +7,6 @@ document.querySelector('.img__btn').addEventListener('click', function() {
   function getdata(){
 
     const data = JSON.parse(localStorage.getItem("data"))  || {"dataList": []};
-    console.log(data);
     return data;
   }
 

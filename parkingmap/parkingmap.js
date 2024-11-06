@@ -122,7 +122,6 @@ function handleButtonClick(event) {
         if(responseButton.style.backgroundColor === 'red'){
             alert('This space is already Booked');
         } else {
-            alert(`Button ${buttonId} clicked!`);
             window.location.href = `../payment/payment.html?buttonId=${buttonId}&vehicleType=${vehicleType}&name=${name}&mobileNumber=${phone}`; // Pass button ID to the next page
         }
        
